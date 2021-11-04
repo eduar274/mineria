@@ -1,6 +1,9 @@
 import  requests as rq
 #from flask import Flask,jsonify
 import json
+import mysql.connector
+import time
+
 
 def get_tendencias():
     trends = json.loads(rq.get('https://api.mercadolibre.com/trends/MCO').content)
@@ -14,15 +17,32 @@ def get_tendencias():
             #print(results, items['catalog_product_id'])
             item_id = items['catalog_product_id']
             if not item_id == None: 
-                rewis = json.loads(rq.get(f"https://api.mercadolibre.com/reviews/item/{item_id}").content)
+                reviews = json.loads(rq.get(f"https://api.mercadolibre.com/reviews/item/{item_id}").content)
                 #print(rewis)
-                if rewis['rating_average'] > 0.0:
-                    print(rewis)
+                if reviews['rating_average'] > 0.0:
+                    #print(reviews['reviews'])
+                    for review in reviews['reviews']:
+                        print(review['content'])
+                    
             
         
     #print(trends)
 
   
+def mysql_Connector():
+    conexion1=mysql.connector.connect(host="localhost", user="root", passwd="",database="mineria")
+    cursor1=conexion1.cursor()
+    cursor1.execute("show tables")
+    for tabla in cursor1:
+        print(tabla)
+    conexion1.close()
+
+def mysql_insertReview(nombre_Categoria_iD, nombre_Categoria , producto, rating):
+
+
+def mysql_insertArticulos(Comentario):
+
+
 
 
 if __name__=="__main__":
