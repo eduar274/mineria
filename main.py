@@ -3,12 +3,6 @@ import  requests as rq
 import json
 import mysql.connector
 
-def Connection():
-    conexion1 = mysql.connector.connect(host="localhost", user="root", passwd="",database="mineria")
-    cursor1 = conexion1.cursor()
-
-
-
 def get_tendencias():
     trends = json.loads(rq.get('https://api.mercadolibre.com/trends/MCO').content)
     for trend in trends:
@@ -70,8 +64,6 @@ def mysql_insertArticulos(id,title,price,rating_average):
         datos = (id, title, price, rating_average,)       
         cursor1.execute(insert, datos)
         conexion1.commit()
-
-    
     conexion1.close()
          
 if __name__=="__main__":
