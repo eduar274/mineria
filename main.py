@@ -13,11 +13,13 @@ def get_tendencias():
             items = json.loads(rq.get(f"https://api.mercadolibre.com/items/{results}").content)
             #print(results, items['catalog_product_id'])
             item_id = items['catalog_product_id']
-            if not item_id == None: 
-                rewis = json.loads(rq.get(f"https://api.mercadolibre.com/reviews/item/{item_id}").content)
-                #print(rewis)
-                if rewis['rating_average'] > 0.0:
-                    print(rewis)
+           if not item_id == None: 
+                reviews = json.loads(rq.get(f"https://api.mercadolibre.com/reviews/item/{item_id}").content)
+                #print(reviews)
+                if reviews['rating_average'] > 0.0:
+                    #print(reviews['reviews'])
+                    for review in reviews['reviews']:
+                        print(review['content'])
             
         
     #print(trends)
